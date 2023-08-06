@@ -5,6 +5,8 @@
 
 [План автоматизации](https://github.com/MaksD88/qa-diploma/blob/main/Test-plan.md)
 
+[Отчет по итогам автоматизации](https://github.com/MaksD88/qa-diploma/blob/main/Automation%20report.md)
+
 
 
 

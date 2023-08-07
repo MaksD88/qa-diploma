@@ -34,7 +34,7 @@ public class PaymentDebitPage {
         page.PaymentDebitPage form = new page.PaymentDebitPage();
         var month = DataHelper.validMonthForCard();
         var year = DataHelper.validYearForCard();
-        var owner = "Eva Klimova";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         form.fillForm(1, month, year, owner, cvv);
         form.waitSuccessNotification();
@@ -48,7 +48,7 @@ public class PaymentDebitPage {
         page.PaymentDebitPage form = new page.PaymentDebitPage();
         var month = DataHelper.validMonthForCard();
         var year = DataHelper.validYearForCard();
-        var owner = "Eva Klimova";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         form.fillForm(2, month, year, owner, cvv);
         form.waitFailedNotification();
@@ -62,7 +62,7 @@ public class PaymentDebitPage {
         page.PaymentDebitPage form = new page.PaymentDebitPage();
         var month = DataHelper.validMonthForCard();
         var year = DataHelper.validYearForCard();
-        var owner = "Eva Klimova";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         form.fillForm(3, month, year, owner, cvv);
         form.waitWrongFormatMessage();
@@ -76,7 +76,7 @@ public class PaymentDebitPage {
         page.PaymentDebitPage form = new page.PaymentDebitPage();
         var month = "00";
         var year = DataHelper.validYearForCard();
-        var owner = "Eva Klimova";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         form.fillForm(1, month, year, owner, cvv);
         form.waitWrongCardExpirationMessage();
@@ -90,7 +90,7 @@ public class PaymentDebitPage {
         page.PaymentDebitPage form = new page.PaymentDebitPage();
         var month = "13";
         var year = DataHelper.validYearForCard();
-        var owner = "Eva Klimova";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         form.fillForm(1, month, year, owner, cvv);
         form.waitWrongCardExpirationMessage();
@@ -104,7 +104,7 @@ public class PaymentDebitPage {
         page.PaymentDebitPage form = new page.PaymentDebitPage();
         var month = DataHelper.validMonthForCard();
         var year = "22";
-        var owner = "Eva Klimova";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         form.fillForm(1, month, year, owner, cvv);
         form.waitCardExpiredMessage();
@@ -118,7 +118,7 @@ public class PaymentDebitPage {
         page.PaymentDebitPage form = new page.PaymentDebitPage();
         var month = DataHelper.validMonthForCard();
         var year = "99";
-        var owner = "Eva Klimova";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         form.fillForm(1, month, year, owner, cvv);
         form.waitWrongCardExpirationMessage();
@@ -132,7 +132,7 @@ public class PaymentDebitPage {
         page.PaymentDebitPage form = new page.PaymentDebitPage();
         var month = DataHelper.validMonthForCard();
         var year = DataHelper.validYearForCard();
-        var owner = "099333";
+        var owner = "099244";
         var cvv = DataHelper.validCvvCode();
         form.fillForm(1, month, year, owner, cvv);
         form.waitInvalidCharactersMessage();
@@ -152,5 +152,56 @@ public class PaymentDebitPage {
         form.waitInvalidCharactersMessage();
     }
 
+    @Test
+    @DisplayName("№12 Пробел перед именем держателя карты")
+    public void spaceBeforeOwnerOfCard() {
+        MainPage main = new MainPage();
+        main.payWithDebit();
+        page.PaymentDebitPage form = new page.PaymentDebitPage();
+        var month = DataHelper.validMonthForCard();
+        var year = DataHelper.validYearForCard();
+        var owner = "  Elena Ivanova";
+        var cvv = DataHelper.validCvvCode();
+        form.fillForm(1, month, year, owner, cvv);
+        form.waitInvalidCharactersMessage();
+    }
 
+    @Test
+    @DisplayName("№13 Неверный формат CVV кода карты ( 2 цифры) ")
+    public void wrongFormatOfCvvCode() {
+        MainPage main = new MainPage();
+        main.payWithDebit();
+        page.PaymentDebitPage form = new page.PaymentDebitPage();
+        var month = DataHelper.validMonthForCard();
+        var year = DataHelper.validYearForCard();
+        var owner = "Evgenii Shipov";
+        var cvv = "52";
+        form.fillForm(1, month, year, owner, cvv);
+        form.waitWrongFormatMessage();
+    }
+
+    @Test
+    @DisplayName("№14 Неверный формат CVV кода карты ( 1 цифра) ")
+    public void wrongFormatOfCvvCode2() {
+        MainPage main = new MainPage();
+        main.payWithDebit();
+        page.PaymentDebitPage form = new page.PaymentDebitPage();
+        var month = DataHelper.validMonthForCard();
+        var year = DataHelper.validYearForCard();
+        var owner = "Evgenii Shipov";
+        var cvv = "2";
+        form.fillForm(1, month, year, owner, cvv);
+        form.waitWrongFormatMessage();
+    }
+
+    @Test
+    @DisplayName("№15 Отправка пустой формы")
+    public void emptyForm() {
+        MainPage main = new MainPage();
+        main.payWithDebit();
+        page.PaymentDebitPage form = new page.PaymentDebitPage();
+        form.cleanForm();
+        form.clickSubmitButton();
+        form.waitMandatoryFieldMessage();
+    }
 }

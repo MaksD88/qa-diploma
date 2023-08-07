@@ -41,7 +41,7 @@ public class DbTests {
         page.PaymentDebitPage page = new PaymentDebitPage();
         var month = DataHelper.validMonthForCard();
         var year = DataHelper.validYearForCard();
-        var owner = "Ivan Kozin";
+        var owner = "Daria Nikova";
         var cvv = DataHelper.validCvvCode();
         page.fillForm(1, month, year, owner, cvv);
         mainPage.waitNotificationForDb();
@@ -58,12 +58,46 @@ public class DbTests {
         page.PaymentCreditPage page = new PaymentCreditPage();
         var month = DataHelper.validMonthForCard();
         var year = DataHelper.validYearForCard();
-        var owner = "Ira Dukina";
+        var owner = "Daria Nikulina";
         var cvv = DataHelper.validCvvCode();
         page.fillCreditForm(1, month, year, owner, cvv);
         mainPage.waitNotificationForDb();
         var actual = DbUtils.getCreditStatus();
         var expected = "APPROVED";
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("29. Отправка запроса в СУБД при покупке тура по карте со статусом 'DECLINED'")
+    public void checkDeclinedStatusInDb() {
+        MainPage mainPage = new MainPage();
+        mainPage.payWithDebit();
+        page.PaymentDebitPage page = new PaymentDebitPage();
+        var month = DataHelper.validMonthForCard();
+        var year = DataHelper.validYearForCard();
+        var owner = "Oleg Tinkoff";
+        var cvv = DataHelper.validCvvCode();
+        page.fillForm(2, month, year, owner, cvv);
+        mainPage.waitNotificationForDb();
+        var actual = DbUtils.getDebitStatus();
+        var expected = "DECLINED";
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("30. Отправка запроса в СУБД при покупке тура по карте со статусом 'DECLINED' в кредит ")
+    public void checkDeclinedStatusInDbInCaseCreditPayment() {
+        MainPage mainPage = new MainPage();
+        mainPage.payWithCredit();
+        page.PaymentCreditPage page = new PaymentCreditPage();
+        var month = DataHelper.validMonthForCard();
+        var year = DataHelper.validYearForCard();
+        var owner = "Oleg Tinkoff";
+        var cvv = DataHelper.validCvvCode();
+        page.fillCreditForm(2, month, year, owner, cvv);
+        mainPage.waitNotificationForDb();
+        var actual = DbUtils.getCreditStatus();
+        var expected = "DECLINED";
         Assertions.assertEquals(expected, actual);
     }
 

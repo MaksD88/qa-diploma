@@ -31,7 +31,7 @@ public class PaymentCreditPage {
         page.PaymentCreditPage creditForm = new page.PaymentCreditPage();
         var month = DataHelper.validMonthForCard();
         var year = DataHelper.validYearForCard();
-        var owner = "Ivan Ivanov";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         creditForm.fillCreditForm(1, month, year, owner, cvv);
         creditForm.waitSuccessNotification();
@@ -45,7 +45,7 @@ public class PaymentCreditPage {
         page.PaymentCreditPage creditForm = new page.PaymentCreditPage();
         var month = DataHelper.validMonthForCard();
         var year = DataHelper.validYearForCard();
-        var owner = "Ivan Ivanov";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         creditForm.fillCreditForm(2, month, year, owner, cvv);
         creditForm.waitFailedNotification();
@@ -59,7 +59,7 @@ public class PaymentCreditPage {
         page.PaymentCreditPage creditForm = new page.PaymentCreditPage();
         var month = DataHelper.validMonthForCard();
         var year = DataHelper.validYearForCard();
-        var owner = "Ivan Ivanov";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         creditForm.fillCreditForm(3, month, year, owner, cvv);
         creditForm.waitWrongFormatMessage();
@@ -73,7 +73,7 @@ public class PaymentCreditPage {
         page.PaymentCreditPage creditForm = new page.PaymentCreditPage();
         var month = "00";
         var year = DataHelper.validYearForCard();
-        var owner = "Ivan Ivanov";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         creditForm.fillCreditForm(2, month, year, owner, cvv);
         creditForm.waitWrongCardExpirationMessage();
@@ -87,7 +87,7 @@ public class PaymentCreditPage {
         page.PaymentCreditPage creditForm = new page.PaymentCreditPage();
         var month = "13";
         var year = DataHelper.validYearForCard();
-        var owner = "Ivan Ivanov";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         creditForm.fillCreditForm(1, month, year, owner, cvv);
         creditForm.waitWrongCardExpirationMessage();
@@ -101,7 +101,7 @@ public class PaymentCreditPage {
         page.PaymentCreditPage creditForm = new page.PaymentCreditPage();
         var month = DataHelper.validMonthForCard();
         var year = "22";
-        var owner = "Ivan Ivanov";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         creditForm.fillCreditForm(1, month, year, owner, cvv);
         creditForm.waitCardExpiredMessage();
@@ -115,7 +115,7 @@ public class PaymentCreditPage {
         page.PaymentCreditPage creditForm = new page.PaymentCreditPage();
         var month = DataHelper.validMonthForCard();
         var year = "99";
-        var owner = "Ivan Ivanov";
+        var owner = "Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         creditForm.fillCreditForm(1, month, year, owner, cvv);
         creditForm.waitWrongCardExpirationMessage();
@@ -157,10 +157,50 @@ public class PaymentCreditPage {
         page.PaymentCreditPage creditForm = new page.PaymentCreditPage();
         var month = DataHelper.validMonthForCard();
         var year = DataHelper.validYearForCard();
-        var owner = "  Eva Klimova";
+        var owner = "  Elena Ivanova";
         var cvv = DataHelper.validCvvCode();
         creditForm.fillCreditForm(1, month, year, owner, cvv);
         creditForm.waitInvalidCharactersMessage();
+    }
+
+    @Test
+    @DisplayName("№24 Неверный формат CVV кода карты ( 2 цифры) ")
+    public void wrongFormatOfCvvCode() {
+        MainPage main = new MainPage();
+        main.payWithCredit();
+        page.PaymentCreditPage creditForm = new page.PaymentCreditPage();
+        var month = DataHelper.validMonthForCard();
+        var year = DataHelper.validYearForCard();
+        var owner = "Evgenii Shipov";
+        var cvv = "52";
+        creditForm.fillCreditForm(1, month, year, owner, cvv);
+        creditForm.waitWrongFormatMessage();
+    }
+
+    @Test
+    @DisplayName("№25 Неверный формат CVV кода карты ( 1 цифра) ")
+    public void wrongFormatOfCvvCode2() {
+        MainPage main = new MainPage();
+        main.payWithCredit();
+        page.PaymentCreditPage creditForm = new page.PaymentCreditPage();
+        var month = DataHelper.validMonthForCard();
+        var year = DataHelper.validYearForCard();
+        var owner = "Evgenii Shipov";
+        var cvv = "2";
+        creditForm.fillCreditForm(1, month, year, owner, cvv);
+        creditForm.waitWrongFormatMessage();
+    }
+
+    @Test
+    @DisplayName("№15 Отправка пустой формы")
+    public void emptyForm() {
+        MainPage main = new MainPage();
+        main.payWithCredit();
+        page.PaymentCreditPage creditForm = new page.PaymentCreditPage();
+        creditForm.cleanForm();
+        creditForm.clickSubmitButton();
+        creditForm.waitMandatoryFieldMessage();
+
     }
 
 }

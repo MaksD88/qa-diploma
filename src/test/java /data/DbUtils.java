@@ -15,11 +15,7 @@ public class DbUtils {
 
     @SneakyThrows
     public static Connection getConnection() {
-        Connection connection = null;
-
-        connection = DriverManager.getConnection(url, userDB, password);
-
-        return connection;
+        var connection = DriverManager.getConnection(url, userDB, password);
     }
 
     @SneakyThrows
@@ -39,11 +35,11 @@ public class DbUtils {
     public static String getCreditStatus() {
         var runner = new QueryRunner();
         var request
-                = "select status from credit_request_entity where created = (select max(created)from credit_request_entity)";
+                = "select status  from credit_request_entity where created = (select max(created)from credit_request_entity)";
         var connection = getConnection();
         var status = runner.query(connection, request, new ScalarHandler<>());
         System.out.println(status);
-        return (String) status;
+        var status = runner.query(connection, request, new ScalarHandler<String>());
     }
 
     @SneakyThrows

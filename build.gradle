@@ -42,3 +42,4 @@ test {
     systemProperty 'app.userDB', System.getProperty('app.userDB', 'app')
     systemProperty 'app.password', System.getProperty('app.password', 'pass')
 }
+

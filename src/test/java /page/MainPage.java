@@ -38,7 +38,7 @@ public class MainPage {
     }
 
     public void waitNotificationForDb() {
-        notification.shouldBe("//*[contains(@class, 'notification_visible')]");
+        notification.shouldBe(Condition.visible, Duration.ofSeconds(12));
     }
 
 }

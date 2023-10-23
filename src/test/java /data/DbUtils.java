@@ -38,7 +38,6 @@ public class DbUtils {
                 = "select status  from credit_request_entity where created = (select max(created)from credit_request_entity)";
         var connection = getConnection();
         var status = runner.query(connection, request, new ScalarHandler<>());
-        System.out.println(status);
         var status = runner.query(connection, request, new ScalarHandler<String>());
     }
 
@@ -47,10 +46,8 @@ public class DbUtils {
         var runner = new QueryRunner();
         var request = "select status from payment_entity where created = (select max(created)from payment_entity)";
         var result = "";
-
         var connection = getConnection();
         var status = runner.query(connection, request, new ScalarHandler<>());
-        System.out.println(status);
         result = (String) status;
         return result;
     }

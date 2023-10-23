@@ -13,9 +13,13 @@ public class DbUtils {
     private static String userDB = System.getProperty("app.userDB");
     private static String password = System.getProperty("app.password");
 
+    
+
     @SneakyThrows
     public static Connection getConnection() {
-        var connection = DriverManager.getConnection(url, userDB, password);
+    return DriverManager.getConnection(url, userDB, password);
+
+
     }
 
     @SneakyThrows
@@ -31,25 +35,25 @@ public class DbUtils {
         runner.update(connection, cleanOrder);
     }
 
-    @SneakyThrows
-    public static String getCreditStatus() {
-        var runner = new QueryRunner();
-        var request
-                = "select status  from credit_request_entity where created = (select max(created)from credit_request_entity)";
-        var connection = getConnection();
-        var status = runner.query(connection, request, new ScalarHandler<>());
-        var status = runner.query(connection, request, new ScalarHandler<String>());
+   @SneakyThrows
+   public static String getCreditStatus() {
+     var runner = new QueryRunner();
+     var request = "select status from credit_request_entity where created = (select max(created) from credit_request_entity)";
+     var connection = getConnection();
+     var status = runner.query(connection, request, new ScalarHandler<String>());
+     return status;
     }
 
-    @SneakyThrows
-    public static String getDebitStatus() {
-        var runner = new QueryRunner();
-        var request = "select status from payment_entity where created = (select max(created)from payment_entity)";
-        var result = "";
-        var connection = getConnection();
-        var status = runner.query(connection, request, new ScalarHandler<>());
-        result = (String) status;
-        return result;
+   @SneakyThrows
+   public static String getDebitStatus() {
+     var runner = new QueryRunner();
+     var request = "select status from payment_entity where created = (select max(created) from payment_entity)";
+     var connection = getConnection();
+     var status = runner.query(connection, request, new ScalarHandler<String>());
+
+     return status;
+}
+
     }
 
 }

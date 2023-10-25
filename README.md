@@ -33,10 +33,10 @@
 4) Запустить тесты:
 
 Для запуска тестов с базой данных mysql выполнить команду:
-`gradlew test -Dbd.url=jdbc:mysql://localhost:3306/app`
+`gradlew test -Ddb.url=jdbc:mysql://localhost:3306/app`
 
 Для запуска тестов с базой данных postgres выполнить команду:
-`gradlew test -Dbd.url=jdbc:postgres://localhost:5431/app`
+`gradlew test -Ddb.url=jdbc:postgres://localhost:5431/app`
 
 5) Отчетность
 

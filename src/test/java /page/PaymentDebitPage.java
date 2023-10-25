@@ -5,15 +5,11 @@ import com.codeborne.selenide.SelenideElement;
 import data.DataHelper;
 import org.openqa.selenium.Keys;
 
-import java.time.Duration;
-
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class PaymentDebitPage {
-
-
     private SelenideElement cardNumber = $("input[placeholder = '0000 0000 0000 0000']");
     private SelenideElement month = $("[placeholder = '08']");
     private SelenideElement year = $("[placeholder = '22']");
@@ -21,17 +17,12 @@ public class PaymentDebitPage {
     private SelenideElement cvv = $("[placeholder = '999']");
     private SelenideElement submitButton = $x("//*[(text()= 'Продолжить')]");
 
-
     private SelenideElement successNotification = $(byText("Операция одобрена Банком."));
     private SelenideElement failedNotification = $(byText("Ошибка! Банк отказал в проведении операции."));
-    private SelenideElement mandatoryFieldMessage = $(byText("Поле обязательно для заполнения"));
-    private SelenideElement wrongFormatMessage = $(byText("Неверный формат"));
-    private SelenideElement invalidCharactersMessage = $(byText("Поле содержит недопустимые символы"));
-    private SelenideElement wrongCardExpirationMessage = $(byText("Неверно указан срок действия карты"));
-    private SelenideElement cardExpiredMessage = $(byText("Истёк срок действия карты"));
 
+    private final Duration notificationTimeout = Duration.ofSeconds(12);
 
-    public void fillForm(int card, String monthNumber, String yearNumber, String owner, String cvvCode) {
+    public void fillForm(int card, String monthNumber, yearNumber, String owner, String cvvCode) {
         cardNumber.setValue(DataHelper.getCard(card));
         month.setValue(monthNumber);
         year.setValue(yearNumber);
@@ -46,38 +37,39 @@ public class PaymentDebitPage {
         year.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
         cardOwner.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
         cvv.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
-
     }
 
     public void clickSubmitButton() {
         submitButton.click();
     }
 
+    // Wait for success and failure notifications with the specified timeout
     public void waitSuccessNotification() {
-        successNotification.shouldBe(visible, Duration.ofSeconds(12));
+        successNotification.shouldBe(visible, notificationTimeout);
     }
 
     public void waitFailedNotification() {
-        failedNotification.shouldBe(visible, Duration.ofSeconds(12));
+        failedNotification.shouldBe(visible, notificationTimeout);
     }
 
+    // Methods to check other error messages without a specified timeout
     public void waitWrongFormatMessage() {
-        wrongFormatMessage.shouldBe(visible, Duration.ofSeconds(12));
+        wrongFormatMessage.shouldBe(visible);
     }
 
     public void waitInvalidCharactersMessage() {
-        invalidCharactersMessage.shouldBe(visible, Duration.ofSeconds(12));
+        invalidCharactersMessage.shouldBe(visible);
     }
 
     public void waitWrongCardExpirationMessage() {
-        wrongCardExpirationMessage.shouldBe(visible, Duration.ofSeconds(12));
+        wrongCardExpirationMessage.shouldBe(visible);
     }
 
     public void waitCardExpiredMessage() {
-        cardExpiredMessage.shouldBe(visible, Duration.ofSeconds(12));
+        cardExpiredMessage.shouldBe(visible);
     }
 
     public void waitMandatoryFieldMessage() {
-        mandatoryFieldMessage.shouldBe(visible, Duration.ofSeconds(12));
+        mandatoryFieldMessage.shouldBe(visible);
     }
 }
